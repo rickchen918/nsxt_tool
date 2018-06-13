@@ -1,6 +1,6 @@
 # the script is to migrate vsphere vss vmk interface to NSX-T N-VDS 
 
-import requests,json,base64
+import requests,json,base64,time
 
 mgr="192.168.110.201"
 user="admin"
@@ -50,7 +50,6 @@ for x in esxnode:
 # use esx host uuid to retrieve returned body and delete unnecessary dict
 # then update back 
 for y in matrix:
-    print y
     body=json.loads(get_tnbody(y))
     del body["_create_user"]
     del body["_create_time"]
@@ -60,4 +59,4 @@ for y in matrix:
     del body["_protection"]
     newbody=json.dumps(body)
     print put_migratevmk(y,newbody)  # vmk migration functon call 
-
+    time.sleep(2)
